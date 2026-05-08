@@ -1,0 +1,1591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Protech — Design Direction · 910studio × Khatun Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   PROTECH — DESIGN DIRECTION
+   Default = "Quiet Power" (V2 Apple). Toggle direction in header to flip
+   to "Studio Restraint" (V1 Combine). All transitions 400ms ease.
+   ===================================================================== */
+
+:root {
+  /* QUIET POWER — V2 Apple */
+  --c-bg: #ffffff;
+  --c-bg-alt: #f5f5f7;
+  --c-surface: #ffffff;
+  --c-surface-tint: #f5f5f7;
+
+  --c-text: #1d1d1f;
+  --c-text-muted: #6e6e73;
+  --c-border: rgba(0, 0, 0, 0.1);
+
+  --c-accent: #0071e3;
+  --c-accent-hover: #0077ed;
+
+  --c-nav-bg: rgba(250, 250, 252, 0.8);
+  --c-nav-text: #1d1d1f;
+  --c-nav-border: rgba(0, 0, 0, 0.06);
+  --frost: saturate(1.8) blur(20px);
+
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --weight-display: 600;
+  --weight-body: 400;
+  --weight-button: 500;
+
+  --leading-display: 1.05;
+  --leading-body: 1.4;
+
+  --track-display: -0.005em;
+  --track-body: -0.022em;
+  --track-eyebrow: 0.16em;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.6, 1);
+  --ease-out-soft: cubic-bezier(0.25, 0.1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-default: 320ms;
+  --dur-page: 500ms;
+
+  --r-block: 8px;
+  --r-pill: 980px;
+  --r-tile: 22px;
+  --r-input: 8px;
+
+  --button-case: none;
+  --button-padding-x: 22px;
+  --button-padding-y: 11px;
+  --button-tracking: -0.005em;
+
+  --shadow-card: 0 0 0 transparent;
+
+  --max-w: 1440px;
+  --gutter: 32px;
+}
+
+/* STUDIO RESTRAINT — V1 Combine */
+[data-direction="combine"] {
+  --c-bg: #ffffff;
+  --c-bg-alt: #eef1f2;
+  --c-surface: #ffffff;
+  --c-surface-tint: rgba(0, 0, 0, 0.04);
+
+  --c-text: #000000;
+  --c-text-muted: rgba(0, 0, 0, 0.6);
+  --c-border: rgba(0, 0, 0, 0.1);
+
+  --c-accent: #000000;
+  --c-accent-hover: #1e1e1e;
+
+  --c-nav-bg: #1e1e1e;
+  --c-nav-text: #ffffff;
+  --c-nav-border: rgba(255, 255, 255, 0.15);
+  --frost: none;
+
+  --font-display: "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  --weight-display: 400;
+  --weight-body: 400;
+  --weight-button: 500;
+
+  --leading-display: 1;
+  --leading-body: 1.3;
+
+  --track-display: 0;
+  --track-body: 0;
+  --track-eyebrow: 0.18em;
+
+  --ease-default: linear;
+  --ease-out-soft: ease-out;
+  --dur-fast: 100ms;
+  --dur-base: 175ms;
+  --dur-default: 175ms;
+  --dur-page: 300ms;
+
+  --r-block: 0;
+  --r-pill: 30px;
+  --r-tile: 0;
+  --r-input: 10px;
+
+  --button-case: uppercase;
+  --button-padding-x: 24px;
+  --button-padding-y: 13px;
+  --button-tracking: 0.03em;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+/* Force display:contents wrappers to actually hide when [hidden] */
+[data-show-when][hidden],
+[data-text-when][hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: var(--leading-body);
+  letter-spacing: var(--track-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 400ms var(--ease-default), color 400ms var(--ease-default);
+}
+
+a { color: inherit; text-decoration: none; transition: color 320ms var(--ease-default); }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--track-display);
+  margin: 0;
+}
+
+p { margin: 0; }
+
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* =====================================================================
+   STICKY HEADER + DIRECTION SWITCHER
+   ===================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--c-nav-bg);
+  color: var(--c-nav-text);
+  backdrop-filter: var(--frost);
+  -webkit-backdrop-filter: var(--frost);
+  border-bottom: 1px solid var(--c-nav-border);
+  transition: background-color 400ms var(--ease-default),
+              color 400ms var(--ease-default),
+              border-color 400ms var(--ease-default);
+}
+
+.site-header__inner {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.brand__dot {
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--c-accent);
+}
+
+[data-direction="combine"] .brand__dot {
+  background: #ebbf20; /* the only chromatic note */
+}
+
+.dir-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--c-nav-border);
+}
+
+[data-direction="combine"] .dir-switcher {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dir-switcher button {
+  padding: 6px 14px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  opacity: 0.6;
+  transition: all 320ms var(--ease-default);
+}
+
+.dir-switcher button:hover { opacity: 1; }
+
+.dir-switcher button[aria-pressed="true"] {
+  background: var(--c-text);
+  color: var(--c-bg);
+  opacity: 1;
+}
+
+[data-direction="combine"] .dir-switcher button[aria-pressed="true"] {
+  background: #ffffff;
+  color: #000000;
+}
+
+.dir-switcher button .label-num {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.5;
+  margin-right: 6px;
+}
+
+/* =====================================================================
+   HERO
+   ===================================================================== */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+  background: var(--c-bg);
+  transition: background 400ms var(--ease-default);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--c-text-muted);
+}
+
+.hero__title {
+  font-size: clamp(40px, 6vw, 72px);
+  margin: 14px auto 0;
+  max-width: 18ch;
+}
+
+.hero__title .dim { color: var(--c-text-muted); }
+
+.hero__lede {
+  margin: 16px auto 0;
+  max-width: 52ch;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--c-text-muted);
+}
+
+.cta-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+/* =====================================================================
+   BUTTONS — change shape, case, radius per direction
+   ===================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--weight-button);
+  letter-spacing: var(--button-tracking);
+  text-transform: var(--button-case);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  transition: all 320ms var(--ease-default);
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--c-accent);
+  color: white;
+}
+.btn-primary:hover { background: var(--c-accent-hover); }
+.btn-primary:active { transform: translateY(1px); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--c-text);
+  border-color: var(--c-text);
+}
+.btn-secondary:hover {
+  background: var(--c-text);
+  color: var(--c-bg);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--c-accent);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  text-transform: none;
+  letter-spacing: -0.005em;
+}
+.btn-ghost:hover { color: var(--c-accent-hover); }
+
+[data-direction="combine"] .btn-ghost { color: var(--c-text); position: relative; }
+[data-direction="combine"] .btn-ghost::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 500ms cubic-bezier(0.47, 1.64, 0.41, 0.8);
+}
+[data-direction="combine"] .btn-ghost:hover::after { transform: scaleX(1); }
+
+.btn-disabled {
+  background: var(--c-surface-tint);
+  color: var(--c-text-muted);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+.btn-disabled:hover { background: var(--c-surface-tint); }
+
+/* =====================================================================
+   SECTIONS
+   ===================================================================== */
+section.workshop-section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--c-border);
+  transition: border-color 400ms var(--ease-default);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.section-head h2 {
+  font-size: clamp(28px, 3.4vw, 44px);
+}
+
+.section-head p {
+  max-width: 36ch;
+  font-size: 13px;
+  color: var(--c-text-muted);
+}
+
+/* =====================================================================
+   PALETTE
+   ===================================================================== */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.swatch {
+  cursor: pointer;
+  border-radius: var(--r-tile);
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  transition: all 320ms var(--ease-default);
+  position: relative;
+}
+
+.swatch:hover { transform: translateY(-2px); }
+
+.swatch__color {
+  height: 130px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.swatch__meta {
+  padding: 14px 16px 16px;
+}
+.swatch__role {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c-text-muted);
+}
+.swatch__hex {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+.swatch__note {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--c-text-muted);
+  line-height: 1.4;
+}
+
+.swatch::after {
+  content: "Copied";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--c-text);
+  color: var(--c-bg);
+  padding: 4px 8px;
+  border-radius: var(--r-pill);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 240ms var(--ease-default);
+  pointer-events: none;
+}
+.swatch.is-copied::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* TYPE */
+.type-stack > * + * { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--c-border); }
+
+.type-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: baseline;
+}
+.type-row__meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+.t-display1 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(48px, 6.6vw, 84px);
+  line-height: var(--leading-display);
+  letter-spacing: var(--track-display);
+}
+.t-display2 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.1;
+  letter-spacing: var(--track-display);
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: 24px;
+  line-height: 1.2;
+}
+.t-body {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--c-text);
+  max-width: 60ch;
+}
+.t-caption {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  font-family: var(--font-mono);
+}
+.t-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--c-text-muted);
+}
+.t-button {
+  font-size: 15px;
+  font-weight: var(--weight-button);
+  text-transform: var(--button-case);
+  letter-spacing: var(--button-tracking);
+}
+
+/* =====================================================================
+   COMPONENT GALLERY
+   ===================================================================== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.specimen {
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-tile);
+  background: var(--c-surface);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: all 320ms var(--ease-default);
+}
+
+.specimen__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c-text-muted);
+}
+
+.specimen__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* PRODUCT CARD specimen */
+.product-card {
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-tile);
+  background: var(--c-surface);
+  overflow: hidden;
+  transition: all 320ms var(--ease-default);
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  transform: translateY(-2px);
+}
+.product-card__media {
+  aspect-ratio: 4 / 3;
+  background: var(--c-surface-tint);
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid var(--c-border);
+  transition: all 320ms var(--ease-default);
+}
+.product-card__media svg {
+  width: 56%;
+  height: auto;
+  transition: transform 320ms var(--ease-default);
+}
+.product-card:hover .product-card__media svg {
+  transform: scale(1.04);
+}
+[data-direction="combine"] .product-card:hover .product-card__media svg {
+  transform: scale(1.02);
+}
+.product-card__body { padding: 18px 22px 22px; flex: 1; display: flex; flex-direction: column; }
+.product-card__colors { display: flex; gap: 6px; }
+.product-card__color {
+  width: 12px; height: 12px; border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+.product-card__title {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+}
+.product-card__sub {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--c-text-muted);
+}
+.product-card__price {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--c-border);
+  font-size: 13px;
+}
+.product-card__price strong { font-weight: 600; }
+.product-card__cta-row { margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+
+/* INPUTS */
+.input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-input);
+  background: var(--c-surface);
+  padding: 0 14px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--c-text);
+  transition: border-color 240ms var(--ease-default), box-shadow 240ms var(--ease-default);
+  outline: none;
+}
+.input::placeholder { color: var(--c-text-muted); }
+.input:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+}
+[data-direction="combine"] .input:focus {
+  border-color: rgba(0, 0, 0, 0.6);
+  box-shadow: none;
+}
+.input.has-error {
+  border-color: #d40000;
+  animation: shake 280ms var(--ease-default);
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle__track {
+  width: 44px; height: 24px;
+  background: var(--c-border);
+  border-radius: 999px;
+  position: relative;
+  transition: background 320ms var(--ease-default);
+}
+[data-direction="combine"] .toggle__track { border-radius: 0; }
+.toggle__dot {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 20px; height: 20px;
+  background: white;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform 320ms var(--ease-default), background 320ms var(--ease-default);
+}
+[data-direction="combine"] .toggle__dot { border-radius: 0; box-shadow: none; }
+.toggle.is-on .toggle__track { background: var(--c-accent); }
+.toggle.is-on .toggle__dot { transform: translateX(20px); }
+.toggle__label { font-size: 14px; }
+
+/* ALERTS */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--r-block);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface-tint);
+  font-size: 13px;
+}
+[data-direction="combine"] .alert { border-radius: 10px; }
+.alert--success {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: rgba(0, 100, 50, 0.15);
+}
+.alert--error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: rgba(150, 0, 0, 0.15);
+}
+.alert__dismiss {
+  margin-left: auto;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 4px;
+}
+.alert__dismiss:hover { opacity: 1; }
+
+/* MINI NAV */
+.mini-nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 6px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+}
+[data-direction="combine"] .mini-nav { border-radius: 0; }
+.mini-nav a {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 999px;
+  text-transform: var(--button-case);
+  letter-spacing: var(--button-tracking);
+  opacity: 0.7;
+  transition: all 320ms var(--ease-default);
+}
+[data-direction="combine"] .mini-nav a { border-radius: 0; }
+.mini-nav a:hover { opacity: 1; }
+.mini-nav a.is-active {
+  background: var(--c-text);
+  color: var(--c-bg);
+  opacity: 1;
+}
+
+/* BADGES */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--c-surface-tint);
+  color: var(--c-text);
+  font-weight: 500;
+  text-transform: var(--button-case);
+  letter-spacing: var(--button-tracking);
+}
+[data-direction="combine"] .badge { border-radius: 0; }
+
+/* =====================================================================
+   MOTION SHOWCASE
+   ===================================================================== */
+.motion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.motion-card {
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-tile);
+  padding: 28px 24px;
+  background: var(--c-surface);
+}
+.motion-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.motion-card__spec {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-text-muted);
+  margin-bottom: 18px;
+  word-break: break-word;
+}
+.motion-card__demo {
+  height: 100px;
+  border-radius: var(--r-block);
+  background: var(--c-surface-tint);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.motion-orb {
+  width: 36px; height: 36px;
+  background: var(--c-accent);
+  border-radius: 999px;
+  transition: transform 800ms var(--ease-default);
+}
+[data-direction="combine"] .motion-orb { background: #000; border-radius: 0; }
+.motion-card.is-playing .motion-orb { transform: translateX(120px); }
+
+.motion-line {
+  position: absolute; bottom: 18px; left: 24px;
+  height: 1px;
+  width: 0;
+  background: var(--c-accent);
+  transition: width 600ms cubic-bezier(0.47, 1.64, 0.41, 0.8);
+}
+.motion-card.is-playing .motion-line { width: 80%; }
+
+/* =====================================================================
+   ANTI-PREFS
+   ===================================================================== */
+.anti-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.anti {
+  position: relative;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-tile);
+  padding: 22px;
+  background: var(--c-surface);
+  overflow: hidden;
+}
+.anti__example {
+  padding: 18px;
+  border-radius: var(--r-block);
+  background: var(--c-surface-tint);
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-bottom: 14px;
+  filter: grayscale(0.5) saturate(0.8);
+  position: relative;
+  overflow: hidden;
+}
+.anti__example::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent calc(50% - 1px), rgba(212, 0, 0, 0.5), transparent calc(50% + 1px));
+  pointer-events: none;
+}
+.anti__title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.anti__why {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  line-height: 1.4;
+}
+
+/* =====================================================================
+   INSPIRATION
+   ===================================================================== */
+.inspo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.inspo {
+  padding: 22px 24px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-tile);
+  background: var(--c-surface);
+}
+.inspo__source {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--c-accent);
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+.inspo__title {
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 8px;
+}
+.inspo__what {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
+/* SPACING SCALE */
+.spacing-row { display: flex; align-items: end; gap: 18px; flex-wrap: wrap; }
+.spacing-block {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--c-text-muted);
+}
+.spacing-block__bar {
+  background: var(--c-text);
+  border-radius: 4px;
+  width: 32px;
+}
+[data-direction="combine"] .spacing-block__bar { border-radius: 0; }
+
+/* FOOTER */
+.site-footer {
+  padding: 48px 0 56px;
+  background: var(--c-bg-alt);
+  color: var(--c-text-muted);
+  border-top: 1px solid var(--c-border);
+}
+.site-footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.tokens-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--c-text);
+  color: var(--c-bg);
+  border: 0;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: all 320ms var(--ease-default);
+}
+.tokens-btn:hover { transform: translateY(-1px); }
+.tokens-btn.is-copied { background: #0f7d3d; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .site-header__inner { gap: 8px; }
+  .dir-switcher button { padding: 6px 10px; font-size: 11px; }
+  .dir-switcher button .label-num { display: none; }
+  .type-row { grid-template-columns: 1fr; gap: 8px; }
+  .section-head { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+
+<body data-direction="apple">
+
+<!-- ========== HEADER ========== -->
+<header class="site-header">
+  <div class="container site-header__inner">
+    <div class="brand">
+      <span class="brand__dot"></span>
+      <span>Protech — Design Direction</span>
+    </div>
+    <nav class="dir-switcher" aria-label="Design direction">
+      <button data-target="apple" aria-pressed="true">
+        <span class="label-num">02</span> Quiet Power
+      </button>
+      <button data-target="combine" aria-pressed="false">
+        <span class="label-num">01</span> Studio Restraint
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">Direction <span data-text-when="apple">02 · Quiet Power</span><span data-text-when="combine" hidden>01 · Studio Restraint</span></p>
+    <h1 class="hero__title">
+      <span data-text-when="apple">Built for the work that <span class="dim">runs Mongolia.</span></span>
+      <span data-text-when="combine" hidden>MongolIA's hardware. <span class="dim">Built quietly.</span></span>
+    </h1>
+    <p class="hero__lede" data-text-when="apple">
+      Two directions explored end-to-end. Both built at <code>/v2</code> and <code>/v1</code> so the client clicks through, not just looks at a spec. Toggle the switcher above to flip the entire system in 400ms.
+    </p>
+    <p class="hero__lede" data-text-when="combine" hidden>
+      Single typeface. Linear motion. UPPERCASE buttons. Sharp content frames. Editorial restraint where the discipline IS the texture.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#">
+        <span data-text-when="apple">Shop</span>
+        <span data-text-when="combine" hidden>Shop</span>
+      </a>
+      <a class="btn btn-ghost" href="#palette">
+        <span data-text-when="apple">Walk through ›</span>
+        <span data-text-when="combine" hidden>Walk through</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== COLOR PALETTE ========== -->
+<section class="workshop-section" id="palette">
+  <div class="container">
+    <header class="section-head">
+      <h2><span data-text-when="apple">Colour, in role.</span><span data-text-when="combine" hidden>Colour, in role.</span></h2>
+      <p>Click any swatch to copy the hex.</p>
+    </header>
+
+    <div class="palette-grid">
+      <!-- APPLE -->
+      <div data-show-when="apple" class="palette-grid" style="display: contents;">
+        <div class="swatch" data-hex="#FFFFFF"><div class="swatch__color" style="background:#FFFFFF;border-bottom:1px solid #eee"></div><div class="swatch__meta"><div class="swatch__role">Background</div><div class="swatch__hex">#FFFFFF</div><div class="swatch__note">Pure white. Apple doesn't soften it.</div></div></div>
+        <div class="swatch" data-hex="#F5F5F7"><div class="swatch__color" style="background:#F5F5F7"></div><div class="swatch__meta"><div class="swatch__role">Background alt</div><div class="swatch__hex">#F5F5F7</div><div class="swatch__note">Tile sections. The sectional rhythm.</div></div></div>
+        <div class="swatch" data-hex="#1D1D1F"><div class="swatch__color" style="background:#1D1D1F"></div><div class="swatch__meta"><div class="swatch__role">Text primary</div><div class="swatch__hex">#1D1D1F</div><div class="swatch__note">Almost-black, never pure.</div></div></div>
+        <div class="swatch" data-hex="#6E6E73"><div class="swatch__color" style="background:#6E6E73"></div><div class="swatch__meta"><div class="swatch__role">Text muted</div><div class="swatch__hex">#6E6E73</div><div class="swatch__note">Eyebrow, captions, footnotes.</div></div></div>
+        <div class="swatch" data-hex="#0071E3"><div class="swatch__color" style="background:#0071E3"></div><div class="swatch__meta"><div class="swatch__role">Accent</div><div class="swatch__hex">#0071E3</div><div class="swatch__note">CTAs and link hover only.</div></div></div>
+        <div class="swatch" data-hex="#0077ED"><div class="swatch__color" style="background:#0077ED"></div><div class="swatch__meta"><div class="swatch__role">Accent hover</div><div class="swatch__hex">#0077ED</div><div class="swatch__note">One step lighter than rest.</div></div></div>
+        <div class="swatch" data-hex="rgba(250,250,252,0.8)"><div class="swatch__color" style="background:rgba(250,250,252,0.8);background-image:linear-gradient(45deg,#fff 25%,#eee 25%,#eee 50%,#fff 50%,#fff 75%,#eee 75%);background-size:14px 14px"></div><div class="swatch__meta"><div class="swatch__role">Nav (frosted)</div><div class="swatch__hex">rgba(250,250,252,.8)</div><div class="swatch__note">+ saturate(1.8) blur(20px). The signature.</div></div></div>
+        <div class="swatch" data-hex="rgba(0,0,0,0.1)"><div class="swatch__color" style="background:rgba(0,0,0,0.1)"></div><div class="swatch__meta"><div class="swatch__role">Border</div><div class="swatch__hex">rgba(0,0,0,.1)</div><div class="swatch__note">Hairline divider.</div></div></div>
+      </div>
+
+      <!-- COMBINE -->
+      <div data-show-when="combine" hidden style="display: contents;">
+        <div class="swatch" data-hex="#1E1E1E"><div class="swatch__color" style="background:#1E1E1E"></div><div class="swatch__meta"><div class="swatch__role">Header / footer</div><div class="swatch__hex">#1E1E1E</div><div class="swatch__note">Near-black, never pure. Permanent dark.</div></div></div>
+        <div class="swatch" data-hex="#FFFFFF"><div class="swatch__color" style="background:#FFFFFF;border-bottom:1px solid #eee"></div><div class="swatch__meta"><div class="swatch__role">Body</div><div class="swatch__hex">#FFFFFF</div><div class="swatch__note">Hard contrast against the dark header.</div></div></div>
+        <div class="swatch" data-hex="#EEF1F2"><div class="swatch__color" style="background:#EEF1F2"></div><div class="swatch__meta"><div class="swatch__role">Body alt</div><div class="swatch__hex">#EEF1F2</div><div class="swatch__note">Cool grey alternate sections.</div></div></div>
+        <div class="swatch" data-hex="#000000"><div class="swatch__color" style="background:#000000"></div><div class="swatch__meta"><div class="swatch__role">Text</div><div class="swatch__hex">#000000</div><div class="swatch__note">Pure black. The contrast move.</div></div></div>
+        <div class="swatch" data-hex="rgba(0,0,0,0.6)"><div class="swatch__color" style="background:rgba(0,0,0,0.6)"></div><div class="swatch__meta"><div class="swatch__role">Text muted</div><div class="swatch__hex">rgba(0,0,0,.6)</div><div class="swatch__note">60% black. Opacity-layered hierarchy.</div></div></div>
+        <div class="swatch" data-hex="rgba(0,0,0,0.08)"><div class="swatch__color" style="background:rgba(0,0,0,0.08)"></div><div class="swatch__meta"><div class="swatch__role">Tint 3</div><div class="swatch__hex">rgba(0,0,0,.08)</div><div class="swatch__note">Three opacity stops do the work of a 9-step grey scale.</div></div></div>
+        <div class="swatch" data-hex="#EBBF20"><div class="swatch__color" style="background:#EBBF20"></div><div class="swatch__meta"><div class="swatch__role">Star / rating</div><div class="swatch__hex">#EBBF20</div><div class="swatch__note">The ONLY chromatic note.</div></div></div>
+        <div class="swatch" data-hex="rgba(0,0,0,0.1)"><div class="swatch__color" style="background:rgba(0,0,0,0.1)"></div><div class="swatch__meta"><div class="swatch__role">Border</div><div class="swatch__hex">rgba(0,0,0,.1)</div><div class="swatch__note">Hairline.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TYPOGRAPHY ========== -->
+<section class="workshop-section">
+  <div class="container">
+    <header class="section-head">
+      <h2>Typography in role.</h2>
+      <p data-text-when="apple">Inter (SF Pro fallback). Negative tracking on body, slight on h1.</p>
+      <p data-text-when="combine" hidden>DM Sans only. Weight 400 headings. Line-height 1.</p>
+    </header>
+
+    <div class="type-stack">
+      <div class="type-row">
+        <div class="type-row__meta" data-text-when="apple">Display 1<br>Inter 600<br>clamp(48,6.6vw,84)<br>line 1.05<br>track -0.005em</div>
+        <div class="type-row__meta" data-text-when="combine" hidden>Display 1<br>DM Sans 400<br>80px / 80px<br>track 0</div>
+        <div class="t-display1">
+          <span data-text-when="apple">Built for the work that runs Mongolia.</span>
+          <span data-text-when="combine" hidden>MongolIA's hardware. Built quietly.</span>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-row__meta" data-text-when="apple">Display 2<br>Inter 600<br>clamp(32,3.6vw,48)</div>
+        <div class="type-row__meta" data-text-when="combine" hidden>Display 2<br>DM Sans 400<br>36 / 36</div>
+        <div class="t-display2">
+          <span data-text-when="apple">Quietly powerful. Built to last.</span>
+          <span data-text-when="combine" hidden>Power, in restraint.</span>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-row__meta">Section heading<br>24 / 1.2</div>
+        <div class="t-h3">Order in fleet. Onboarded in a week.</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-row__meta">Body<br>17 / 1.5<br>track -0.022em (apple)<br>track 0 (combine)</div>
+        <div class="t-body">
+          M4 Pro delivers 22 hours of battery, all-day quiet, and Liquid Retina XDR. Built for the leaders running Mongolia's biggest companies — banks, hospitals, agencies, ministries — where the hardware has to disappear behind the work.
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-row__meta">Eyebrow<br>12 / 600<br>UPPERCASE<br>+0.16em</div>
+        <div class="t-eyebrow">Protech for Business · M4 Pro</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-row__meta">Caption / mono<br>JetBrains Mono<br>12 / 1.4</div>
+        <div class="t-caption">SKU: PROTECH-MBP16-M4PRO-1TB-SLV · Updated 2026-05-08</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-row__meta">Button<br>15 / 500<br>case + tracking varies</div>
+        <div class="t-button">
+          <span data-text-when="apple">Add to bag</span>
+          <span data-text-when="combine" hidden>Add to bag</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== COMPONENTS ========== -->
+<section class="workshop-section">
+  <div class="container">
+    <header class="section-head">
+      <h2>Components in motion.</h2>
+      <p>Every primitive Protech ships. All hover, focus, and click states are real.</p>
+    </header>
+
+    <div class="gallery-grid">
+      <!-- BUTTONS -->
+      <div class="specimen">
+        <div class="specimen__label">Buttons</div>
+        <div class="specimen__row">
+          <button class="btn btn-primary"><span data-text-when="apple">Buy</span><span data-text-when="combine" hidden>Buy</span></button>
+          <button class="btn btn-secondary"><span data-text-when="apple">Compare</span><span data-text-when="combine" hidden>Compare</span></button>
+          <button class="btn btn-ghost">Learn more <span aria-hidden="true">›</span></button>
+        </div>
+        <div class="specimen__row">
+          <button class="btn btn-disabled" disabled>
+            <span data-text-when="apple">Out of stock</span>
+            <span data-text-when="combine" hidden>Out of stock</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- INPUTS -->
+      <div class="specimen">
+        <div class="specimen__label">Inputs</div>
+        <input class="input" placeholder="Email address">
+        <input class="input has-error" placeholder="Password" data-error>
+        <select class="input" style="appearance: none;">
+          <option>256 GB</option>
+          <option>512 GB</option>
+          <option>1 TB</option>
+        </select>
+        <label class="toggle" data-toggle>
+          <span class="toggle__track"><span class="toggle__dot"></span></span>
+          <span class="toggle__label">Add AppleCare+ for fleet</span>
+        </label>
+      </div>
+
+      <!-- ALERTS -->
+      <div class="specimen">
+        <div class="specimen__label">Alerts</div>
+        <div class="alert alert--success">
+          <span>✓ Configuration saved.</span>
+          <button class="alert__dismiss" aria-label="Dismiss">✕</button>
+        </div>
+        <div class="alert alert--error">
+          <span>Stock changed. 1TB no longer available in this color.</span>
+          <button class="alert__dismiss" aria-label="Dismiss">✕</button>
+        </div>
+        <div class="specimen__row">
+          <span class="badge">In stock</span>
+          <span class="badge" style="background:rgba(0,113,227,0.12);color:#0071e3">New</span>
+          <span class="badge">2-year warranty</span>
+        </div>
+      </div>
+
+      <!-- NAV -->
+      <div class="specimen">
+        <div class="specimen__label">Mini nav</div>
+        <nav class="mini-nav" aria-label="Specimen">
+          <a href="#" class="is-active">Mac</a>
+          <a href="#">iPad</a>
+          <a href="#">Phone</a>
+          <a href="#">Audio</a>
+        </nav>
+        <div class="specimen__label" style="margin-top:8px">Form action</div>
+        <form class="demo-form" novalidate>
+          <div class="specimen__row" style="gap:10px;">
+            <input class="input" placeholder="your.email@protech.mn" style="flex:1; min-width: 0;">
+            <button class="btn btn-primary" type="submit">
+              <span class="btn-label">
+                <span data-text-when="apple">Subscribe</span>
+                <span data-text-when="combine" hidden>Subscribe</span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- PRODUCT CARDS — bigger row -->
+    <div style="margin-top: 32px;" class="palette-grid">
+      <article class="product-card">
+        <div class="product-card__media">
+          <svg viewBox="0 0 320 220" aria-hidden>
+            <rect x="40" y="20" width="240" height="150" rx="10" fill="#d8d8da"/>
+            <rect x="48" y="28" width="224" height="134" rx="6" fill="#1a1a1c"/>
+            <path d="M22 174 L298 174 L308 196 Q308 200 304 200 L16 200 Q12 200 12 196 Z" fill="#9b9ba0"/>
+          </svg>
+        </div>
+        <div class="product-card__body">
+          <div class="product-card__colors">
+            <span class="product-card__color" style="background:#d8d8da"></span>
+            <span class="product-card__color" style="background:#2a2a2d"></span>
+          </div>
+          <div class="product-card__title">MacBook Pro 16"</div>
+          <div class="product-card__sub">
+            <span data-text-when="apple">M4 Pro · The fleet workhorse.</span>
+            <span data-text-when="combine" hidden>M4 PRO · THE FLEET WORKHORSE</span>
+          </div>
+          <div class="product-card__price">From <strong>₮6,990,000</strong> <span style="color:var(--c-text-muted)">or ₮291,250/mo. for 24 mo.</span></div>
+          <div class="product-card__cta-row">
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;"><span data-text-when="apple">Buy</span><span data-text-when="combine" hidden>Buy</span></button>
+            <a class="btn btn-ghost" href="#">Learn more <span aria-hidden="true">›</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__media">
+          <svg viewBox="0 0 200 340" aria-hidden style="width:36% !important">
+            <rect x="40" y="14" width="120" height="310" rx="22" fill="#3d4f6b"/>
+            <rect x="46" y="20" width="108" height="298" rx="18" fill="#0c1626"/>
+            <rect x="86" y="28" width="28" height="6" rx="3" fill="#000"/>
+          </svg>
+        </div>
+        <div class="product-card__body">
+          <div class="product-card__colors">
+            <span class="product-card__color" style="background:#3d4f6b"></span>
+            <span class="product-card__color" style="background:#d97648"></span>
+            <span class="product-card__color" style="background:#d8d8da"></span>
+          </div>
+          <div class="product-card__title">iPhone 17 Pro</div>
+          <div class="product-card__sub">
+            <span data-text-when="apple">Pro for the road.</span>
+            <span data-text-when="combine" hidden>PRO FOR THE ROAD</span>
+          </div>
+          <div class="product-card__price">From <strong>₮3,290,000</strong> <span style="color:var(--c-text-muted)">or ₮137,083/mo.</span></div>
+          <div class="product-card__cta-row">
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;"><span data-text-when="apple">Buy</span><span data-text-when="combine" hidden>Buy</span></button>
+            <a class="btn btn-ghost" href="#">Learn more <span aria-hidden="true">›</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__media">
+          <svg viewBox="0 0 240 200" aria-hidden style="width:50% !important">
+            <rect x="70" y="80" width="100" height="100" rx="50" fill="#fafafa" stroke="#e5e5e7"/>
+            <ellipse cx="60" cy="60" rx="22" ry="30" fill="#fafafa" stroke="#e5e5e7" transform="rotate(-15 60 60)"/>
+            <ellipse cx="180" cy="60" rx="22" ry="30" fill="#fafafa" stroke="#e5e5e7" transform="rotate(15 180 60)"/>
+          </svg>
+        </div>
+        <div class="product-card__body">
+          <div class="product-card__title">AirPods Pro 3</div>
+          <div class="product-card__sub">
+            <span data-text-when="apple">Calls that cut through.</span>
+            <span data-text-when="combine" hidden>CALLS THAT CUT THROUGH</span>
+          </div>
+          <div class="product-card__price">From <strong>₮690,000</strong></div>
+          <div class="product-card__cta-row">
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;"><span data-text-when="apple">Buy</span><span data-text-when="combine" hidden>Buy</span></button>
+            <a class="btn btn-ghost" href="#">Learn more <span aria-hidden="true">›</span></a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MOTION ========== -->
+<section class="workshop-section">
+  <div class="container">
+    <header class="section-head">
+      <h2>Motion, the signature.</h2>
+      <p data-text-when="apple">Cubic-bezier(0.4, 0, 0.6, 1) at 320ms across all hovers and reveals. Tile reveal staggered 80ms.</p>
+      <p data-text-when="combine" hidden>Linear at 175ms across ~90% of transitions. One overshoot curve reserved for line draws.</p>
+    </header>
+
+    <div class="motion-grid">
+      <div class="motion-card" data-motion-card>
+        <h3>Default</h3>
+        <div class="motion-card__spec">
+          <span data-text-when="apple">cubic-bezier(0.4, 0, 0.6, 1) · 320ms</span>
+          <span data-text-when="combine" hidden>linear · 175ms</span>
+        </div>
+        <div class="motion-card__demo"><div class="motion-orb"></div></div>
+      </div>
+      <div class="motion-card" data-motion-card>
+        <h3>Reveal</h3>
+        <div class="motion-card__spec">
+          <span data-text-when="apple">tile entrance — 320ms · stagger 80ms</span>
+          <span data-text-when="combine" hidden>fade — 175ms linear</span>
+        </div>
+        <div class="motion-card__demo"><div class="motion-orb"></div></div>
+      </div>
+      <div class="motion-card" data-motion-card>
+        <h3>Decorative line</h3>
+        <div class="motion-card__spec">
+          <span data-text-when="apple">opacity 0.4s ease-in 0.3s</span>
+          <span data-text-when="combine" hidden>cubic-bezier(0.47, 1.64, 0.41, 0.8) · 600ms</span>
+        </div>
+        <div class="motion-card__demo">
+          <div class="motion-line"></div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 16px; font-size: 12px; color: var(--c-text-muted);">Click any card to play.</p>
+  </div>
+</section>
+
+<!-- ========== SPACING ========== -->
+<section class="workshop-section">
+  <div class="container">
+    <header class="section-head">
+      <h2>Spacing scale.</h2>
+      <p>4px through 96px. Apply 8/16/32 first; reach further only when justified.</p>
+    </header>
+    <div class="spacing-row">
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:4px"></div>4</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:8px"></div>8</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:12px"></div>12</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:16px"></div>16</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:24px"></div>24</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:32px"></div>32</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:48px"></div>48</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:64px"></div>64</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:80px"></div>80</div>
+      <div class="spacing-block"><div class="spacing-block__bar" style="height:96px"></div>96</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ANTI-PREFS ========== -->
+<section class="workshop-section">
+  <div class="container">
+    <header class="section-head">
+      <h2>What we will not ship.</h2>
+      <p>Anti-preferences keep both directions honest.</p>
+    </header>
+    <div class="anti-grid">
+      <div class="anti">
+        <div class="anti__example">[ Stock corporate blue button ]</div>
+        <div class="anti__title">Stock #0066CC bank-template blue</div>
+        <div class="anti__why">Reads as government tender. Apple's #0071E3 is the only blue allowed. Always.</div>
+      </div>
+      <div class="anti">
+        <div class="anti__example">Empower your business → leverage solutions</div>
+        <div class="anti__title">LinkedIn corporate poison</div>
+        <div class="anti__why">No "leverage", "synergy", "delve", "unlock". Banned in headlines, banned in body, banned in alt text.</div>
+      </div>
+      <div class="anti">
+        <div class="anti__example">Hero‹Slide 1 of 5›</div>
+        <div class="anti__title">Hero carousel</div>
+        <div class="anti__why">It's 2026. Pick one message and stand behind it.</div>
+      </div>
+      <div class="anti">
+        <div class="anti__example" style="filter: blur(2px); color: #444;">[ Shake handshake stock photo ]</div>
+        <div class="anti__title">Stock photos of handshakes</div>
+        <div class="anti__why">Procurement managers know. Use real product photography or commissioned Mongolian-context shots.</div>
+      </div>
+      <div class="anti">
+        <div class="anti__example">[ Glass card on glass card on gradient ]</div>
+        <div class="anti__title">Compounded glassmorphism</div>
+        <div class="anti__why">One frosted layer (the nav) is the budget. Two becomes a 2021 dashboard template.</div>
+      </div>
+      <div class="anti">
+        <div class="anti__example">CLICK HERE!! · Submit · Click to learn more!</div>
+        <div class="anti__title">Generic CTAs and exclamation marks</div>
+        <div class="anti__why">Verbs only: "Buy", "Order in fleet", "Get an estimate". No "Submit", no "Click here", no exclamation marks ever.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== INSPIRATION ========== -->
+<section class="workshop-section">
+  <div class="container">
+    <header class="section-head">
+      <h2>Where the references come from.</h2>
+      <p>Steal specifics, not the whole site.</p>
+    </header>
+    <div class="inspo-grid">
+      <div data-show-when="apple" class="inspo-grid" style="display:contents;">
+        <div class="inspo">
+          <div class="inspo__source">apple.com/iphone</div>
+          <div class="inspo__title">Tile-grid rhythm</div>
+          <div class="inspo__what">Steal the 80ms staggered tile reveal and the 22px tile radius. Adapt: Mongolian-context product photography instead of US-market lifestyle.</div>
+        </div>
+        <div class="inspo">
+          <div class="inspo__source">apple.com/shop/buy-iphone</div>
+          <div class="inspo__title">Sticky-rail configurator</div>
+          <div class="inspo__what">Steal the right-rail summary that fades in 300ms after layout settles. Adapt: ₮ pricing, fleet-volume options, MNT 0% APR.</div>
+        </div>
+        <div class="inspo">
+          <div class="inspo__source">apple.com/macbook-pro</div>
+          <div class="inspo__title">Marketing PDP cadence</div>
+          <div class="inspo__what">Steal the slow scroll storytelling, one beat per viewport. Adapt: fleet-procurement narrative, not consumer aspiration.</div>
+        </div>
+      </div>
+      <div data-show-when="combine" hidden style="display:contents;">
+        <div class="inspo">
+          <div class="inspo__source">combine-theme-gadget.myshopify.com</div>
+          <div class="inspo__title">Single-typeface discipline</div>
+          <div class="inspo__what">Steal: DM Sans throughout, 175ms linear motion default. Adapt: keep DM Sans for Latin, add Golos Text fallback for Cyrillic so Mongolian content doesn't fall back.</div>
+        </div>
+        <div class="inspo">
+          <div class="inspo__source">bang-olufsen.com</div>
+          <div class="inspo__title">Photography weight</div>
+          <div class="inspo__what">Steal: large, museum-quality, single-product hero shots. Adapt: photograph the actual MacBook Pro on Mongolian executive desks, not US lifestyle scenes.</div>
+        </div>
+        <div class="inspo">
+          <div class="inspo__source">aesop.com</div>
+          <div class="inspo__title">Editorial copy density</div>
+          <div class="inspo__what">Steal: long-form descriptions in narrow measure. Adapt: replace product romance with procurement-manager pragmatism (specs, warranty, MDM).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div>
+      <div style="font-weight: 600; color: var(--c-text);">Protech — Design Direction</div>
+      <p style="margin-top: 4px; font-size: 12px;">
+        910studio × Khatun Studio · 2026-05-08 · v1.0
+      </p>
+      <p style="margin-top: 4px; font-size: 11px;">
+        <span data-text-when="apple">Quiet Power · Motion level 3</span>
+        <span data-text-when="combine" hidden>Studio Restraint · Motion level 2</span>
+      </p>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <a class="btn btn-secondary" href="var-2/apple-research/MOTION-SPEC.md" style="font-size: 12px; padding: 8px 16px;">
+        <span data-text-when="apple">Open V2 spec</span>
+        <span data-text-when="combine" hidden>Open V2 spec</span>
+      </a>
+      <a class="btn btn-secondary" href="var-1/combine-research/MOTION-SPEC.md" style="font-size: 12px; padding: 8px 16px;">V1 spec</a>
+      <a class="btn btn-secondary" href="DESIGN-BRIEF.md" style="font-size: 12px; padding: 8px 16px;">Brief</a>
+      <button class="tokens-btn" id="copyTokens">Copy tokens</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const body = document.body;
+  const switcherBtns = document.querySelectorAll('.dir-switcher [data-target]');
+
+  // Initial direction from URL hash
+  const hash = location.hash.slice(1);
+  const supported = ['apple', 'combine'];
+  const start = supported.includes(hash) ? hash : 'apple';
+  setDirection(start);
+
+  switcherBtns.forEach(btn => {
+    btn.addEventListener('click', () => setDirection(btn.dataset.target));
+  });
+
+  // Keep direction in sync if URL hash changes (forward/back, deeplinks)
+  window.addEventListener('hashchange', () => {
+    const h = location.hash.slice(1);
+    if (supported.includes(h) && h !== body.dataset.direction) setDirection(h);
+  });
+
+  function setDirection(dir) {
+    body.dataset.direction = dir;
+    location.hash = dir;
+    switcherBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.target === dir ? 'true' : 'false'));
+    // Toggle text-when blocks
+    document.querySelectorAll('[data-text-when]').forEach(el => {
+      el.hidden = el.dataset.textWhen !== dir;
+    });
+    // Toggle show-when blocks (for full sections like alternate palettes)
+    document.querySelectorAll('[data-show-when]').forEach(el => {
+      el.hidden = el.dataset.showWhen !== dir;
+    });
+  }
+
+  // CLICK SWATCH TO COPY HEX
+  document.querySelectorAll('.swatch').forEach(s => {
+    s.addEventListener('click', () => {
+      const hex = s.dataset.hex;
+      if (!hex) return;
+      navigator.clipboard?.writeText(hex);
+      s.classList.add('is-copied');
+      setTimeout(() => s.classList.remove('is-copied'), 1200);
+    });
+  });
+
+  // TOGGLE
+  document.querySelectorAll('[data-toggle]').forEach(t => {
+    t.addEventListener('click', () => t.classList.toggle('is-on'));
+  });
+
+  // ALERT DISMISS
+  document.querySelectorAll('.alert__dismiss').forEach(b => {
+    b.addEventListener('click', () => {
+      const a = b.closest('.alert');
+      a.style.opacity = '0';
+      a.style.transform = 'translateY(-4px)';
+      a.style.transition = 'all 240ms';
+      setTimeout(() => a.remove(), 250);
+    });
+  });
+
+  // FORM ACTION
+  document.querySelectorAll('.demo-form').forEach(f => {
+    f.addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = f.querySelector('button[type="submit"]');
+      const labelEl = btn.querySelector('.btn-label');
+      const orig = labelEl.innerHTML;
+      btn.disabled = true;
+      labelEl.textContent = 'Sending…';
+      setTimeout(() => {
+        labelEl.textContent = '✓ Sent';
+        setTimeout(() => {
+          labelEl.innerHTML = orig;
+          btn.disabled = false;
+        }, 1400);
+      }, 800);
+    });
+  });
+
+  // MOTION CARD: click to play
+  document.querySelectorAll('[data-motion-card]').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.remove('is-playing');
+      void card.offsetWidth;
+      card.classList.add('is-playing');
+      setTimeout(() => card.classList.remove('is-playing'), 1400);
+    });
+  });
+
+  // ERROR INPUT — re-shake on focus
+  document.querySelectorAll('.input.has-error').forEach(i => {
+    i.addEventListener('focus', () => {
+      i.classList.remove('has-error');
+      void i.offsetWidth;
+      i.classList.add('has-error');
+    });
+  });
+
+  // COPY TOKENS
+  document.getElementById('copyTokens').addEventListener('click', () => {
+    const dir = body.dataset.direction;
+    const tokens = dir === 'combine' ? combineTokens() : appleTokens();
+    navigator.clipboard?.writeText(tokens);
+    const btn = document.getElementById('copyTokens');
+    const txt = btn.textContent;
+    btn.textContent = 'Copied · ' + dir;
+    btn.classList.add('is-copied');
+    setTimeout(() => { btn.textContent = txt; btn.classList.remove('is-copied'); }, 1600);
+  });
+
+  function appleTokens() {
+    return `// Tailwind / CSS tokens — Quiet Power (V2 Apple)
+:root {
+  --c-bg: #ffffff;
+  --c-bg-alt: #f5f5f7;
+  --c-text: #1d1d1f;
+  --c-text-muted: #6e6e73;
+  --c-accent: #0071e3;
+  --c-accent-hover: #0077ed;
+  --c-border: rgba(0,0,0,0.1);
+  --c-nav-bg: rgba(250,250,252,0.8);
+  --frost: saturate(1.8) blur(20px);
+
+  --font-display: "Inter", "SF Pro Display", system-ui, sans-serif;
+  --font-body: "Inter", "SF Pro Text", system-ui, sans-serif;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.6, 1);
+  --dur-default: 320ms;
+
+  --r-block: 8px;
+  --r-pill: 980px;
+  --r-tile: 22px;
+}`;
+  }
+
+  function combineTokens() {
+    return `// Tailwind / CSS tokens — Studio Restraint (V1 Combine)
+:root {
+  --c-bg: #ffffff;
+  --c-bg-alt: #eef1f2;
+  --c-text: #000000;
+  --c-text-muted: rgba(0,0,0,0.6);
+  --c-accent: #000000;
+  --c-accent-hover: #1e1e1e;
+  --c-border: rgba(0,0,0,0.1);
+  --c-nav-bg: #1e1e1e;
+  --frost: none;
+
+  --font-display: "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  --ease-default: linear;
+  --ease-overshoot: cubic-bezier(0.47, 1.64, 0.41, 0.8);
+  --dur-default: 175ms;
+
+  --r-block: 0;
+  --r-pill: 30px;
+  --r-tile: 0;
+}`;
+  }
+</script>
+
+</body>
+</html>

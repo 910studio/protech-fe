@@ -1,0 +1,268 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/*
+  ---break---
+*/
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Token foundation — extracted live from apple.com (var-2) and combine
+  shopify theme (var-1). See moodboard/var-2/apple-research/MOTION-SPEC.md
+  and moodboard/var-1/combine-research/MOTION-SPEC.md.
+
+  Default tokens here are var-2 (Apple). The /v1 layout overrides them
+  inside its own scope so var-1 pages render in Combine's system without
+  affecting var-2.
+*/
+
+:root {
+  /* Surface — softer, warm western feel */
+  --c-bg: #fbfaf8;
+  --c-bg-alt: #f3f1ec;
+  --c-bg-card: #ffffff;
+  --c-surface: #ffffff;
+  --c-nav-bg: rgba(251, 250, 248, 0.75);
+  --c-curtain-bg: rgba(232, 232, 237, 0.4);
+
+  /* Text */
+  --c-text: #18181b;
+  --c-text-muted: #6b6b73;
+  --c-text-link: rgba(0, 0, 0, 0.8);
+
+  /* Accent — indigo, Linear/Vercel territory */
+  --c-accent: #4f46e5;
+  --c-accent-hover: #4338ca;
+  --c-accent-soft: rgba(79, 70, 229, 0.08);
+
+  /* Borders */
+  --c-border: rgba(0, 0, 0, 0.08);
+
+  /* Pastels — bright bento variety, saturated enough to read */
+  --pastel-lilac:   #D9C8FF;
+  --pastel-mint:    #B6E5BC;
+  --pastel-peach:   #FFB892;
+  --pastel-cream:   #FFE39E;
+  --pastel-sky:     #BBD4FF;
+  --pastel-coral:   #FFB6C2;
+  --pastel-sage:    #BFD4B0;
+  --pastel-butter:  #FFD566;
+
+  /* Frost */
+  --frost: saturate(1.8) blur(20px);
+
+  /* Easing */
+  --ease-default: cubic-bezier(0.4, 0, 0.6, 1);
+  --ease-out-soft: cubic-bezier(0.25, 0.1, 0.3, 1);
+  --ease-out-fine: cubic-bezier(0.28, 0.11, 0.32, 1);
+  --ease-overshoot: cubic-bezier(0.47, 1.64, 0.41, 0.8);
+
+  /* Duration */
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-default: 320ms;
+  --dur-tile: 400ms;
+  --dur-page: 500ms;
+  --dur-hero: 700ms;
+
+  /* Radius — bouncy, soft western */
+  --r-input: 18px;
+  --r-card: 32px;
+  --r-tile: 40px;
+  --r-pill: 980px;
+
+  /* Layout */
+  --max-w: 1440px;
+  --nav-h: 56px;
+
+  /* Tracking */
+  --track-display: 0;
+  --track-h1: -0.012em;
+  --track-body: -0.005em;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@theme inline {
+  --color-background: var(--c-bg);
+  --color-foreground: var(--c-text);
+  --color-bg-alt: var(--c-bg-alt);
+  --color-bg-card: var(--c-bg-card);
+  --color-text: var(--c-text);
+  --color-text-muted: var(--c-text-muted);
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-border: var(--c-border);
+  /* font-sans intentionally NOT set inline — let Tailwind use the runtime
+     `--font-sans` injected by next/font on <html> (Geist by default). */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+html, body {
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+body {
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  letter-spacing: var(--track-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  transition: color var(--dur-default) var(--ease-default);
+}
+
+/* Default heading rhythm — display-sized type uses positive tracking */
+h1, h2 {
+  letter-spacing: var(--track-h1);
+}
+h3, h4, h5, h6 {
+  letter-spacing: var(--track-display);
+}
+
+/*
+  Apple-style flyout choreography. Each item picks up its --flyout-item-number
+  and --flyout-group-number from inline style; the cascade math here.
+
+  Open: items fade-up after their (group + 1) × 80ms + item × 20ms delay.
+  Close: items reverse-stagger out, max 240ms total.
+*/
+.flyout-item {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.32s var(--ease-default)
+      calc(var(--flyout-item-number, 0) * 20ms +
+           (var(--flyout-group-number, 0) + 1) * 80ms),
+    transform 0.32s var(--ease-default)
+      calc(var(--flyout-item-number, 0) * 20ms +
+           (var(--flyout-group-number, 0) + 1) * 80ms);
+}
+.flyout-open .flyout-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+.flyout-closing .flyout-item {
+  transition-delay: 0s;
+  transition-duration: min(
+    0.16s + (var(--flyout-item-total, 0) - var(--flyout-item-number, 0)) * 20ms,
+    0.24s
+  );
+}
+/*
+  ---break---
+*/
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+/*
+  ---break---
+*/
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
