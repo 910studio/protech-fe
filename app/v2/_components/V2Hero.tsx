@@ -85,16 +85,15 @@ export function V2Hero() {
   const story = stories[active]
 
   return (
-    <section className="bg-[var(--c-bg)] px-5 pt-5 lg:px-6 lg:pt-6">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <motion.article
-          className="relative grid h-[calc(100vh-3.5rem-1.25rem)] overflow-hidden rounded-[28px] sm:rounded-[36px] lg:h-[calc(100vh-3.5rem-1.5rem)] lg:rounded-[var(--r-tile)]"
-          style={{ gridTemplateRows: 'auto 1fr' }}
-          animate={{ backgroundColor: story.bg }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.6, 1] }}
-        >
+    <section className="bg-[var(--c-bg)] px-5 lg:px-6">
+      <motion.article
+        className="relative grid h-[calc(100vh-3.5rem)] overflow-hidden rounded-t-[28px] p-16 sm:rounded-t-[36px] lg:rounded-t-[var(--r-tile)]"
+        style={{ gridTemplateRows: 'auto 1fr' }}
+        animate={{ backgroundColor: story.bg }}
+        transition={{ duration: 0.6, ease: [0.4, 0, 0.6, 1] }}
+      >
           {/* STORY PROGRESS INDICATORS — top, segmented */}
-          <div className="flex gap-2 px-6 pt-5 sm:px-10 sm:pt-6 lg:px-14 lg:pt-8">
+          <div className="flex gap-2">
             {stories.map((s, i) => (
               <button
                 key={i}
@@ -121,7 +120,7 @@ export function V2Hero() {
           </div>
 
           {/* INNER CONTENT — asymmetric: text left, BIG product right */}
-          <div className="relative grid grid-cols-1 grid-rows-[1fr_auto] px-6 pb-6 pt-8 sm:px-10 sm:pb-8 sm:pt-10 lg:grid-cols-[1fr_1.1fr] lg:grid-rows-1 lg:gap-8 lg:px-14 lg:pb-12">
+          <div className="relative grid grid-cols-1 grid-rows-[1fr_auto] pt-10 lg:grid-cols-[1fr_1.1fr] lg:grid-rows-1 lg:gap-8">
             {/* LEFT — copy */}
             <div className="relative z-10 flex flex-col justify-center lg:py-4">
               <motion.div
@@ -230,8 +229,7 @@ export function V2Hero() {
               </AnimatePresence>
             </div>
           </div>
-        </motion.article>
-      </div>
+      </motion.article>
     </section>
   )
 }
