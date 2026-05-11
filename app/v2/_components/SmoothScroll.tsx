@@ -15,12 +15,21 @@ import 'lenis/dist/lenis.css'
 export function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 0.12,
-      lerp: 0.95,
-      wheelMultiplier: 2.1,
+      duration: 0.2,
+      // Still near-instant but smaller per-frame deltas so the fixed-nav SVG
+      // filter has less area to re-evaluate per frame.
+      lerp: 0.85,
+      wheelMultiplier: 1.35,
       smoothWheel: true,
       easing: (t) => 1 - Math.pow(1 - t, 3),
     })
+
+    // GPU-promote the scroll container so the compositor (not the main
+    // thread) handles paint while we scroll. Keeps the chromatic-aberration
+    // glass nav cheap during big scroll bursts.
+    const root = document.documentElement
+    const prevWillChange = root.style.willChange
+    root.style.willChange = 'scroll-position'
 
     let rafId = 0
     const raf = (time: number) => {
@@ -32,6 +41,7 @@ export function SmoothScroll() {
     return () => {
       cancelAnimationFrame(rafId)
       lenis.destroy()
+      root.style.willChange = prevWillChange
     }
   }, [])
 
