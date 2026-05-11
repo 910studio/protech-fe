@@ -1,10 +1,11 @@
 'use client'
 
-import * as motion from 'motion/react-client'
+import { motion } from 'motion/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { tileReveal } from '@/app/lib/motion'
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { useCardBend } from '../_hooks/useCardBend'
 
 type Theme = 'lilac' | 'mint' | 'peach' | 'cream' | 'sky' | 'coral' | 'sage' | 'butter' | 'tinted' | 'light' | 'dark'
 
@@ -82,8 +83,11 @@ export function EditorialTile({
       ? 'min-h-[640px] lg:min-h-[760px]'
       : 'min-h-[480px] lg:min-h-[540px]'
 
+  const { ref, y } = useCardBend<HTMLElement>()
+
   return (
     <motion.article
+      ref={ref}
       {...tileReveal}
       transition={{ ...tileReveal.transition, delay }}
       className={[
@@ -92,7 +96,11 @@ export function EditorialTile({
         sizeClass,
         isDark ? 'text-white' : 'text-zinc-900',
       ].join(' ')}
-      style={{ background: themeBg[theme] } as CSSProperties}
+      style={{
+        background: themeBg[theme],
+        y,
+        willChange: 'transform',
+      }}
     >
       {/* COPY */}
       <div

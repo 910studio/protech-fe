@@ -2,11 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import * as motion from 'motion/react-client'
-import type { CSSProperties } from 'react'
+import { motion } from 'motion/react'
 import type { Pastel, Product } from '../_data/products'
 import { fmtMNT } from '../_data/products'
 import { tileReveal } from '@/app/lib/motion'
+import { useCardBend } from '../_hooks/useCardBend'
 
 const themeBg: Record<Pastel, string> = {
   lilac:  'var(--pastel-lilac)',
@@ -27,16 +27,22 @@ type Props = {
 
 export function ProductCard({ product: p, delay = 0 }: Props) {
   const isDark = p.pastel === 'dark'
+  const { ref, y } = useCardBend<HTMLElement>()
 
   return (
     <motion.article
+      ref={ref}
       {...tileReveal}
       transition={{ ...tileReveal.transition, delay }}
       className={[
-        'group relative flex min-h-[520px] flex-col justify-between overflow-hidden rounded-[28px] p-7 transition-[transform,box-shadow] duration-[320ms] ease-[cubic-bezier(0.25,0.1,0.3,1)] hover:-translate-y-1 hover:shadow-[0_24px_48px_-22px_rgba(0,0,0,0.22),0_4px_12px_-4px_rgba(0,0,0,0.08)] sm:min-h-[560px] sm:rounded-[32px] sm:p-8',
+        'group relative flex min-h-[520px] flex-col justify-between overflow-hidden rounded-[28px] p-7 transition-[box-shadow] duration-[320ms] ease-[cubic-bezier(0.25,0.1,0.3,1)] hover:shadow-[0_24px_48px_-22px_rgba(0,0,0,0.22),0_4px_12px_-4px_rgba(0,0,0,0.08)] sm:min-h-[560px] sm:rounded-[32px] sm:p-8',
         isDark ? 'text-white' : 'text-zinc-900',
       ].join(' ')}
-      style={{ background: themeBg[p.pastel] } as CSSProperties}
+      style={{
+        background: themeBg[p.pastel],
+        y,
+        willChange: 'transform',
+      }}
     >
       <header className="relative z-10 max-w-[80%]">
         <p

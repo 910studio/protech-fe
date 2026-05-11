@@ -1,7 +1,7 @@
 'use client'
 
 import * as motion from 'motion/react-client'
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, useScroll, useTransform } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -84,11 +84,21 @@ export function V2Hero() {
 
   const story = stories[active]
 
+  // At scroll 0 the hero's bottom is flush (intentional — it reads as
+  // continuing into the magazine grid below). As soon as you scroll, the
+  // bottom corners round to match every other tile.
+  const { scrollY } = useScroll()
+  const bottomRadius = useTransform(scrollY, [0, 120], [0, 36])
+
   return (
     <section className="bg-[var(--c-bg)] px-5 lg:px-6">
       <motion.article
-        className="relative grid h-[calc(100vh-3.5rem)] overflow-hidden rounded-t-[28px] p-16 sm:rounded-t-[36px] lg:rounded-t-[var(--r-tile)]"
-        style={{ gridTemplateRows: 'auto 1fr' }}
+        className="relative mx-auto grid h-[calc(100vh-3.5rem)] max-w-[var(--max-w)] overflow-hidden rounded-t-[28px] p-16 sm:rounded-t-[36px] lg:rounded-t-[var(--r-tile)]"
+        style={{
+          gridTemplateRows: 'auto 1fr',
+          borderBottomLeftRadius: bottomRadius,
+          borderBottomRightRadius: bottomRadius,
+        }}
         animate={{ backgroundColor: story.bg }}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.6, 1] }}
       >

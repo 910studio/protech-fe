@@ -1,10 +1,20 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import * as motion from 'motion/react-client'
+import dynamic from 'next/dynamic'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import GlassSurface from '@/components/GlassSurface'
+
+// SSR-skipped: GlassSurface inspects `CSS.supports(...)` at render time,
+// which forks the inline styles between server and browser → hydration
+// mismatch. Skipping SSR + showing a transparent placeholder until the
+// browser mounts kills the mismatch without flashing.
+const GlassSurface = dynamic(() => import('@/components/GlassSurface'), {
+  ssr: false,
+  loading: () => <div style={{ width: '100%', height: 56 }} />,
+})
 
 const navItems = [
   { label: 'Shop', href: '/v2/shop' },
@@ -76,10 +86,17 @@ export function V2Nav() {
         <div className="mx-auto flex h-full w-full max-w-[var(--max-w)] items-center justify-between px-6 lg:px-10">
           <Link
             href="/v2"
-            className="flex items-center gap-1.5 text-[15px] font-semibold tracking-tight text-zinc-900 transition-opacity hover:opacity-70"
+            className="flex items-center transition-opacity hover:opacity-70"
+            aria-label="Protech home"
           >
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--c-accent)]" />
-            Protech
+            <Image
+              src="/Protech.webp"
+              alt="Protech"
+              width={420}
+              height={100}
+              priority
+              className="h-7 w-auto"
+            />
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">

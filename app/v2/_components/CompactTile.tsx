@@ -1,10 +1,11 @@
 'use client'
 
-import * as motion from 'motion/react-client'
+import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { tileReveal } from '@/app/lib/motion'
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { useCardBend } from '../_hooks/useCardBend'
 
 type Theme = 'lilac' | 'mint' | 'peach' | 'cream' | 'sky' | 'coral' | 'sage' | 'butter' | 'tinted' | 'light' | 'dark'
 
@@ -85,15 +86,22 @@ export function CompactTile({
   const wrapWidthPct = Math.round(baseW * imageScale)
   const wrapHeightPct = Math.round(baseH * imageScale)
 
+  const { ref, y } = useCardBend<HTMLElement>()
+
   return (
     <motion.article
+      ref={ref}
       {...tileReveal}
       transition={{ ...tileReveal.transition, delay }}
       className={[
         'group relative flex min-h-[340px] flex-col justify-between overflow-hidden rounded-[28px] p-7 sm:rounded-[32px] sm:p-8 lg:min-h-[380px]',
         isDark ? 'text-white' : 'text-zinc-900',
       ].join(' ')}
-      style={{ background: themeBg[theme] } as CSSProperties}
+      style={{
+        background: themeBg[theme],
+        y,
+        willChange: 'transform',
+      }}
     >
       <header className="relative z-10 max-w-[55%]">
         <p
