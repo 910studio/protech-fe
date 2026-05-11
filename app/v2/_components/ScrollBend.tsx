@@ -12,7 +12,7 @@ import { overscroll } from './SmoothScroll'
 export function ScrollBend({ children }: { children: React.ReactNode }) {
   return (
     <motion.main
-      className="pt-14"
+      className="pb-[calc(60px+env(safe-area-inset-bottom,0px))] pt-14 lg:pb-0"
       style={{ y: overscroll, willChange: 'transform' }}
     >
       {children}

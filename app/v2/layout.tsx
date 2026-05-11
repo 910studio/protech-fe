@@ -4,6 +4,7 @@ import { V2Footer } from './_components/V2Footer'
 import { SmoothScroll } from './_components/SmoothScroll'
 import { ScrollBend } from './_components/ScrollBend'
 import { HourglassPinch } from './_components/HourglassPinch'
+import { MobileBottomBar } from './_components/MobileBottomBar'
 
 export const metadata: Metadata = {
   title: 'Protech — Built for Mongolia\'s enterprises',
@@ -21,6 +22,7 @@ export default function V2Layout({
       <ScrollBend>{children}</ScrollBend>
       <V2Footer />
       <HourglassPinch />
+      <MobileBottomBar />
     </div>
   )
 }
