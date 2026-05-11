@@ -34,6 +34,7 @@ const cols = [
       ['Our partners', '/v2/about/partners'],
       ['Careers', '/v2/about/careers'],
       ['Newsroom', '/v2/about/news'],
+      ['Blog', '/v2/blog'],
       ['Contact', '/v2/about/contact'],
     ],
   },

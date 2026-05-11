@@ -19,7 +19,7 @@ type IconProps = { className?: string }
 const items: { label: string; href: string; icon: ComponentType<IconProps> }[] = [
   { label: 'Shop', href: '/v2/shop', icon: ShopIcon },
   { label: 'Leasing', href: '/v2/leasing', icon: LeasingIcon },
-  { label: 'Blog', href: '/v2/blog', icon: BlogIcon },
+  { label: 'Compare', href: '/v2/compare', icon: CompareIcon },
   { label: 'Support', href: '/v2/support', icon: SupportIcon },
 ]
 
@@ -162,15 +162,12 @@ function LeasingIcon({ className }: IconProps) {
     </svg>
   )
 }
-function BlogIcon({ className }: IconProps) {
+function CompareIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M5 4h14v16l-7-3-7 3V4Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
+      <rect x="3.5" y="5" width="7.5" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.7" />
+      <rect x="13" y="5" width="7.5" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M7.25 9.5h0M16.75 9.5h0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
 }

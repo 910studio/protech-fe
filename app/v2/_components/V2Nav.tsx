@@ -19,7 +19,7 @@ const GlassSurface = dynamic(() => import('@/components/GlassSurface'), {
 const navItems = [
   { label: 'Shop', href: '/v2/shop' },
   { label: 'Leasing', href: '/v2/leasing' },
-  { label: 'Blog', href: '/v2/blog' },
+  { label: 'Compare', href: '/v2/compare' },
   { label: 'Support', href: '/v2/support' },
 ]
 
