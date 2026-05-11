@@ -2,16 +2,19 @@ import { V2Hero } from './_components/V2Hero'
 import { EditorialTile } from './_components/EditorialTile'
 import { CompactTile } from './_components/CompactTile'
 import { CuratorNote } from './_components/CuratorNote'
+import { Rail, RailItem } from './_components/Rail'
+import { CategoryChipRail } from './_components/CategoryChipRail'
 
 export default function V2Landing() {
   return (
     <>
       <V2Hero />
+      <CategoryChipRail />
 
       <section className="bg-[var(--c-bg)] px-5 py-5 lg:px-6 lg:py-6">
         <div className="mx-auto flex max-w-[var(--max-w)] flex-col gap-5 lg:gap-6">
-          {/* MAGAZINE ROW A — tall feature + 2 stacked compacts */}
-          <div className="grid grid-cols-1 gap-5 lg:gap-6 lg:grid-cols-12">
+          {/* MAGAZINE ROW A — tall feature + 2 compacts (rail on mobile) */}
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
             <div className="lg:col-span-7">
               <EditorialTile
                 kicker="Studio pick · 02"
@@ -32,35 +35,41 @@ export default function V2Landing() {
                 delay={0}
               />
             </div>
-            <div className="flex flex-col gap-5 lg:gap-6 lg:col-span-5">
-              <CompactTile
-                brand="DELL · PRO 14"
-                title={<>Light enough for the road.</>}
-                body="Intel Core Ultra 7-255U. 1.4 kg. 19-hour battery."
-                href="/v2/shop/dell-pro-14"
-                image="/v2/products/protech/dell-pro-14.png"
-                imageAlt="Dell Pro 14"
-                imageW={800}
-                imageH={800}
-                theme="mint"
-                imageScale={1.4}
-                imageAnchor="bottom-right"
-                delay={0.08}
-              />
-              <CompactTile
-                brand="LENOVO · ULTRA 9-185H"
-                title={<>Workstation power, ThinkPad heritage.</>}
-                body="Core Ultra 9. 32 GB DDR5. 2.8K OLED. Built for engineers and design crews."
-                href="/v2/shop/lenovo-ultra-9"
-                image="/v2/products/protech/lenovo-ultra-9.png"
-                imageAlt="Lenovo Ultra 9-185H"
-                imageW={800}
-                imageH={800}
-                theme="cream"
-                imageScale={1.3}
-                imageAnchor="bottom-right"
-                delay={0.16}
-              />
+            <div className="lg:col-span-5">
+              <Rail cols={2} className="lg:!flex lg:flex-col">
+                <RailItem>
+                  <CompactTile
+                    brand="DELL · PRO 14"
+                    title={<>Light enough for the road.</>}
+                    body="Intel Core Ultra 7-255U. 1.4 kg. 19-hour battery."
+                    href="/v2/shop/dell-pro-14"
+                    image="/v2/products/protech/dell-pro-14.png"
+                    imageAlt="Dell Pro 14"
+                    imageW={800}
+                    imageH={800}
+                    theme="mint"
+                    imageScale={1.4}
+                    imageAnchor="bottom-right"
+                    delay={0.08}
+                  />
+                </RailItem>
+                <RailItem>
+                  <CompactTile
+                    brand="LENOVO · ULTRA 9-185H"
+                    title={<>Workstation power, ThinkPad heritage.</>}
+                    body="Core Ultra 9. 32 GB DDR5. 2.8K OLED. Built for engineers and design crews."
+                    href="/v2/shop/lenovo-ultra-9"
+                    image="/v2/products/protech/lenovo-ultra-9.png"
+                    imageAlt="Lenovo Ultra 9-185H"
+                    imageW={800}
+                    imageH={800}
+                    theme="cream"
+                    imageScale={1.3}
+                    imageAnchor="bottom-right"
+                    delay={0.16}
+                  />
+                </RailItem>
+              </Rail>
             </div>
           </div>
 
@@ -100,50 +109,62 @@ export default function V2Landing() {
             delay={0}
           />
 
-          {/* 3-UP MIXED PASTEL */}
-          <div className="grid grid-cols-1 gap-5 lg:gap-6 lg:grid-cols-3">
-            <CompactTile
-              brand="APPLE · IPAD AIR M4"
-              title={<>The lightest Pro.</>}
-              body="Field teams, design crews, execs who present for a living."
-              href="/v2/shop/ipad-air-m4-11"
-              image="/v2/products/protech/ipad-air-m4.png"
-              imageAlt="iPad Air M4"
-              imageW={800}
-              imageH={800}
-              theme="butter"
-              imageScale={1.5}
-              imageAnchor="bottom-right"
-              delay={0.0}
-            />
-            <CompactTile
-              brand="APPLE · MACBOOK AIR M4"
-              title={<>Quiet power, all-day battery.</>}
-              body="M4 chip in the thinnest Mac. Fanless, 18 hours, the writer&apos;s laptop."
-              href="/v2/shop/macbook-air-m4-13"
-              image="/v2/products/protech/macbook-air-m4.png"
-              imageAlt="MacBook Air M4"
-              imageW={800}
-              imageH={800}
-              theme="lilac"
-              imageScale={1.35}
-              imageAnchor="bottom-right"
-              delay={0.08}
-            />
-            <CompactTile
-              brand="APPLE · AIRPODS PRO 2"
-              title={<>Calls that cut through.</>}
-              body="Active noise cancellation tuned for open offices."
-              href="/v2/shop/airpods-pro-2"
-              image="/v2/products/protech/airpods-pro-2.png"
-              imageAlt="AirPods Pro 2"
-              imageW={800}
-              imageH={800}
-              theme="coral"
-              imageScale={1.4}
-              imageAnchor="bottom-right"
-              delay={0.16}
-            />
+          {/* 3-UP MIXED PASTEL — horizontal rail on mobile, 3-col grid on lg */}
+          <div>
+            <p className="mb-4 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500 lg:hidden">
+              <span aria-hidden className="h-px w-6 bg-zinc-300" />
+              Studio picks
+            </p>
+            <Rail cols={3}>
+              <RailItem>
+                <CompactTile
+                  brand="APPLE · IPAD AIR M4"
+                  title={<>The lightest Pro.</>}
+                  body="Field teams, design crews, execs who present for a living."
+                  href="/v2/shop/ipad-air-m4-11"
+                  image="/v2/products/protech/ipad-air-m4.png"
+                  imageAlt="iPad Air M4"
+                  imageW={800}
+                  imageH={800}
+                  theme="butter"
+                  imageScale={1.5}
+                  imageAnchor="bottom-right"
+                  delay={0.0}
+                />
+              </RailItem>
+              <RailItem>
+                <CompactTile
+                  brand="APPLE · MACBOOK AIR M4"
+                  title={<>Quiet power, all-day battery.</>}
+                  body="M4 chip in the thinnest Mac. Fanless, 18 hours, the writer&apos;s laptop."
+                  href="/v2/shop/macbook-air-m4-13"
+                  image="/v2/products/protech/macbook-air-m4.png"
+                  imageAlt="MacBook Air M4"
+                  imageW={800}
+                  imageH={800}
+                  theme="lilac"
+                  imageScale={1.35}
+                  imageAnchor="bottom-right"
+                  delay={0.08}
+                />
+              </RailItem>
+              <RailItem>
+                <CompactTile
+                  brand="APPLE · AIRPODS PRO 2"
+                  title={<>Calls that cut through.</>}
+                  body="Active noise cancellation tuned for open offices."
+                  href="/v2/shop/airpods-pro-2"
+                  image="/v2/products/protech/airpods-pro-2.png"
+                  imageAlt="AirPods Pro 2"
+                  imageW={800}
+                  imageH={800}
+                  theme="coral"
+                  imageScale={1.4}
+                  imageAnchor="bottom-right"
+                  delay={0.16}
+                />
+              </RailItem>
+            </Rail>
           </div>
 
           {/* FLEET — dark, full editorial */}
