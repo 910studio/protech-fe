@@ -1,262 +1,289 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import * as motion from 'motion/react-client'
 import type { Product } from '../../../_data/products'
 import { fmtMNT } from '../../../_data/products'
 
 type Props = { product: Product }
 
-const tradeInOptions = [
-  { id: 'no', label: 'No trade-in', sub: 'Pay full price up front.' },
-  {
-    id: 'yes',
-    label: 'Add a trade-in',
-    sub: 'Estimated up to ₮3,500,000 off.',
-  },
-]
-
-const careOptions = [
-  { id: 'no', label: 'Skip AppleCare', sub: 'Standard 1-year warranty.' },
-  {
-    id: 'yes',
-    label: 'AppleCare+ for fleet',
-    sub: '+₮180,000 — 2 years of coverage including drops.',
-    delta: 180_000,
-  },
-]
-
 export function PDPConfigurator({ product: p }: Props) {
-  const [colorId, setColorId] = useState(p.colors[0]?.id ?? '')
-  const [capacityId, setCapacityId] = useState(p.capacities?.[0]?.id ?? '')
-  const [tradeIn, setTradeIn] = useState<'yes' | 'no'>('no')
-  const [care, setCare] = useState<'yes' | 'no'>('no')
+  const [qty, setQty] = useState(1)
 
-  const capacity = p.capacities?.find((c) => c.id === capacityId)
-  const careDelta = careOptions.find((c) => c.id === care)?.delta ?? 0
-  const tradeInDelta = tradeIn === 'yes' ? -1_500_000 : 0
-
-  const total = useMemo(
-    () => p.basePrice + (capacity?.priceDelta ?? 0) + careDelta + tradeInDelta,
-    [p.basePrice, capacity?.priceDelta, careDelta, tradeInDelta],
-  )
-  const monthly = Math.round(total / 24)
-
-  const selectedColor = p.colors.find((c) => c.id === colorId) ?? p.colors[0]
+  const ram = matchSpec(p.specs, /(\d+)\s*GB/i, '16 GB')
+  const storage = p.capacities?.[0]?.label ?? matchSpec(p.specs, /(\d+\s*(?:GB|TB))\s*(?:SSD|storage)?/i, '256 GB')
+  const sku = `PRO-${p.slug.toUpperCase().replace(/-/g, '')}`
 
   return (
-    <div className="space-y-10 lg:sticky lg:top-20">
-      {/* COLOR */}
-      {p.colors.length > 1 ? (
-        <Section
-          step={1}
-          title={p.colors.length > 2 ? 'Choose your colour.' : 'Pick a finish.'}
-          summary={selectedColor?.name}
+    <div className="space-y-5 lg:sticky lg:top-20">
+      {/* UTILITY ROW */}
+      <div className="flex items-center justify-between text-[12px] text-zinc-500">
+        <div className="flex items-center gap-4">
+          <button type="button" className="inline-flex items-center gap-1.5 hover:text-zinc-900">
+            <span aria-hidden>⇄</span> Compare
+          </button>
+          <button type="button" className="inline-flex items-center gap-1.5 hover:text-zinc-900">
+            <span aria-hidden>◇</span> Demo unit
+          </button>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <span className="text-zinc-400">Share</span>
+          <ShareDot label="Facebook">f</ShareDot>
+          <ShareDot label="Twitter">𝕏</ShareDot>
+          <ShareDot label="Email">✉</ShareDot>
+          <ShareDot label="Link">⊕</ShareDot>
+        </div>
+      </div>
+
+      {/* SPEC CARD */}
+      <div className="rounded-2xl border border-black/10 bg-white p-6 lg:p-7">
+        <h2
+          className="text-[22px] font-semibold leading-tight tracking-tight text-zinc-900 lg:text-[24px]"
+          style={{ letterSpacing: '-0.014em' }}
         >
-          <div className="grid grid-cols-1 gap-2">
-            {p.colors.map((c) => {
-              const isActive = c.id === colorId
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => setColorId(c.id)}
-                  className={[
-                    'flex items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors duration-[320ms] ease-[cubic-bezier(0.4,0,0.6,1)]',
-                    isActive
-                      ? 'border-zinc-900 bg-white shadow-[inset_0_0_0_1px_#1d1d1f]'
-                      : 'border-black/10 bg-white hover:border-black/30',
-                  ].join(' ')}
-                >
-                  <span className="flex items-center gap-3">
-                    <span
-                      aria-hidden
-                      className="h-6 w-6 rounded-full ring-1 ring-black/10"
-                      style={{ background: c.hex }}
-                    />
-                    <span className="text-[14px] font-medium text-zinc-900">
-                      {c.name}
-                    </span>
-                  </span>
-                  {isActive ? (
-                    <span className="text-[12px] text-zinc-500">Selected</span>
-                  ) : null}
-                </button>
-              )
-            })}
-          </div>
-        </Section>
-      ) : null}
+          {p.name}
+        </h2>
+        <p className="mt-4 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500">
+          <span aria-hidden className="h-px w-6 bg-zinc-300" />
+          Specifications
+        </p>
 
-      {/* STORAGE / CAPACITY */}
-      {p.capacities && p.capacities.length > 0 ? (
-        <Section step={2} title="How much storage?" summary={capacity?.label}>
-          <div className="space-y-2">
-            {p.capacities.map((cap) => {
-              const isActive = cap.id === capacityId
-              const price = p.basePrice + cap.priceDelta
-              return (
-                <button
-                  key={cap.id}
-                  type="button"
-                  onClick={() => setCapacityId(cap.id)}
-                  className={[
-                    'flex w-full items-center justify-between rounded-xl border bg-white px-4 py-3 text-left transition-colors duration-[320ms]',
-                    isActive
-                      ? 'border-zinc-900 shadow-[inset_0_0_0_1px_#1d1d1f]'
-                      : 'border-black/10 hover:border-black/30',
-                  ].join(' ')}
-                >
-                  <div>
-                    <p className="text-[15px] font-semibold text-zinc-900">
-                      {cap.label}
-                    </p>
-                    <p className="mt-0.5 text-[12px] text-zinc-500">
-                      From {fmtMNT(price)}
-                    </p>
-                  </div>
-                  {isActive ? (
-                    <span className="text-[12px] text-zinc-500">Selected</span>
-                  ) : null}
-                </button>
-              )
-            })}
-          </div>
-        </Section>
-      ) : null}
+        <dl className="mt-3 divide-y divide-black/[0.06] text-[13.5px]">
+          {p.chip ? <SpecRow label="CPU" value={p.chip} /> : null}
+          <SpecRow label="RAM" value={ram} />
+          <SpecRow label="STORAGE" value={storage} />
+          {p.display ? <SpecRow label="DISPLAY" value={p.display} /> : null}
+        </dl>
 
-      {/* TRADE-IN */}
-      <Section
-        step={(p.colors.length > 1 ? 1 : 0) + (p.capacities ? 1 : 0) + 1}
-        title="Trade in your old fleet?"
-        summary={tradeIn === 'yes' ? 'Adding trade-in' : 'No trade-in'}
-      >
-        <div className="space-y-2">
-          {tradeInOptions.map((opt) => {
-            const isActive = opt.id === tradeIn
-            return (
-              <button
-                key={opt.id}
-                type="button"
-                onClick={() => setTradeIn(opt.id as 'yes' | 'no')}
-                className={[
-                  'flex w-full flex-col items-start rounded-xl border bg-white px-4 py-3 text-left transition-colors duration-[320ms]',
-                  isActive
-                    ? 'border-zinc-900 shadow-[inset_0_0_0_1px_#1d1d1f]'
-                    : 'border-black/10 hover:border-black/30',
-                ].join(' ')}
-              >
-                <span className="text-[14px] font-medium text-zinc-900">
-                  {opt.label}
-                </span>
-                <span className="mt-0.5 text-[12px] text-zinc-500">{opt.sub}</span>
-              </button>
-            )
-          })}
+        {/* 2x2 FACTS GRID */}
+        <div className="mt-5 grid grid-cols-2 gap-3 border-t border-black/[0.06] pt-5">
+          <Fact icon={DisplayIcon} label="Display" value={displaySize(p.display)} />
+          <Fact icon={TypeIcon} label="Use" value="Office" />
+          <Fact icon={BarcodeIcon} label="SKU" value={sku.slice(0, 9)} />
+          <Fact icon={TruckIcon} label="Shipping" value="Free" />
         </div>
-      </Section>
+      </div>
 
-      {/* APPLECARE */}
-      <Section
-        step={(p.colors.length > 1 ? 1 : 0) + (p.capacities ? 1 : 0) + 2}
-        title="Add AppleCare+ for fleet?"
-        summary={care === 'yes' ? 'Coverage added' : 'No coverage'}
-      >
-        <div className="space-y-2">
-          {careOptions.map((opt) => {
-            const isActive = opt.id === care
-            return (
-              <button
-                key={opt.id}
-                type="button"
-                onClick={() => setCare(opt.id as 'yes' | 'no')}
-                className={[
-                  'flex w-full flex-col items-start rounded-xl border bg-white px-4 py-3 text-left transition-colors duration-[320ms]',
-                  isActive
-                    ? 'border-zinc-900 shadow-[inset_0_0_0_1px_#1d1d1f]'
-                    : 'border-black/10 hover:border-black/30',
-                ].join(' ')}
-              >
-                <span className="text-[14px] font-medium text-zinc-900">
-                  {opt.label}
-                </span>
-                <span className="mt-0.5 text-[12px] text-zinc-500">{opt.sub}</span>
-              </button>
-            )
-          })}
-        </div>
-      </Section>
-
-      {/* SUMMARY + CTA */}
+      {/* PRICE + PAYMENT + CTA */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.6, 1], delay: 0.3 }}
-        className="rounded-2xl bg-zinc-900 p-6 text-white"
+        transition={{ duration: 0.4, ease: [0.4, 0, 0.6, 1], delay: 0.15 }}
+        className="rounded-2xl border border-black/10 bg-white p-6 lg:p-7"
       >
-        <p className="text-[12px] uppercase tracking-[0.16em] text-white/60">
-          Your configuration
-        </p>
-        <ul className="mt-3 space-y-1 text-[13px] text-white/80">
-          <li>{p.name}</li>
-          {selectedColor ? <li>{selectedColor.name}</li> : null}
-          {capacity ? <li>{capacity.label}</li> : null}
-          {tradeIn === 'yes' ? <li>Trade-in applied (estimate)</li> : null}
-          {care === 'yes' ? <li>AppleCare+ for fleet</li> : null}
-        </ul>
-        <div className="mt-5 flex items-baseline justify-between border-t border-white/10 pt-4">
-          <span className="text-[12px] text-white/60">From</span>
-          <div className="text-right">
-            <p className="text-[24px] font-semibold leading-none">
-              {fmtMNT(total)}
-            </p>
-            <p className="mt-1 text-[11px] text-white/60">
-              or {fmtMNT(monthly)}/mo. for 24 mo. at 0%
-            </p>
+        <div className="flex items-baseline gap-2">
+          <span className="text-[12px] uppercase tracking-[0.18em] text-zinc-500">Price</span>
+          <span
+            className="ml-auto text-[28px] font-semibold tabular-nums leading-none text-zinc-900 lg:text-[30px]"
+            style={{ letterSpacing: '-0.018em' }}
+          >
+            {fmtMNT(p.basePrice)}
+          </span>
+        </div>
+        <p className="mt-1 text-right text-[11px] text-zinc-500">VAT not included</p>
+
+        {/* PAYMENT BANNERS */}
+        <div className="mt-5 space-y-2">
+          <PaymentBanner
+            tint="sky"
+            title="Split into 4 with Storepay"
+            sub="Pay over 4 months, 0% interest."
+            brand="powered by Storepay"
+          />
+          <PaymentBanner
+            tint="mint"
+            title="Khan Bank financing available"
+            sub="Buy this product on installment via Khan Bank."
+            brand="powered by Khan Bank"
+          />
+        </div>
+
+        {/* QTY + CTAs */}
+        <div className="mt-5 flex items-stretch gap-2">
+          <div className="flex items-center rounded-full border border-black/15 bg-white">
+            <QtyBtn onClick={() => setQty((q) => Math.max(1, q - 1))} ariaLabel="Decrease quantity">
+              −
+            </QtyBtn>
+            <span className="w-8 select-none text-center text-[14px] font-medium tabular-nums text-zinc-900">
+              {qty}
+            </span>
+            <QtyBtn onClick={() => setQty((q) => q + 1)} ariaLabel="Increase quantity">
+              +
+            </QtyBtn>
           </div>
+          <button
+            type="button"
+            className="flex-1 rounded-full bg-[var(--c-accent)] px-5 text-[14px] font-medium text-white transition-colors duration-[320ms] hover:bg-[var(--c-accent-hover)]"
+          >
+            Add to cart
+          </button>
         </div>
         <button
           type="button"
-          className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-full bg-[var(--c-accent)] text-[14px] font-medium text-white transition-colors duration-[320ms] hover:bg-[var(--c-accent-hover)]"
+          className="mt-2 h-11 w-full rounded-full bg-zinc-900 text-[14px] font-medium text-white transition-colors duration-[320ms] hover:bg-zinc-700"
         >
-          Add to bag
-        </button>
-        <button
-          type="button"
-          className="mt-2 inline-flex h-9 w-full items-center justify-center text-[12px] text-white/60 transition-colors hover:text-white"
-        >
-          Save this configuration
+          Buy now
         </button>
       </motion.div>
     </div>
   )
 }
 
-function Section({
-  step,
+/* ---------- helpers ---------- */
+
+function matchSpec(specs: string[], re: RegExp, fallback: string) {
+  for (const s of specs) {
+    const m = s.match(re)
+    if (m) return m[0]
+  }
+  return fallback
+}
+
+function displaySize(display?: string) {
+  if (!display) return '—'
+  const m = display.match(/(\d+(?:\.\d+)?)-inch/i)
+  return m ? `${m[1]}"` : display
+}
+
+function SpecRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between py-2.5">
+      <dt className="text-[11.5px] font-medium uppercase tracking-[0.16em] text-zinc-500">{label}</dt>
+      <dd className="text-[13.5px] font-medium text-zinc-900">{value}</dd>
+    </div>
+  )
+}
+
+function Fact({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: (props: { className?: string }) => ReactNode
+  label: string
+  value: string
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl border border-black/[0.06] bg-white px-3 py-2.5">
+      <Icon className="h-5 w-5 shrink-0 text-zinc-700" />
+      <div className="min-w-0">
+        <p className="truncate text-[10.5px] font-medium uppercase tracking-[0.14em] text-zinc-500">
+          {label}
+        </p>
+        <p className="truncate text-[12.5px] font-medium text-zinc-900">{value}</p>
+      </div>
+    </div>
+  )
+}
+
+function PaymentBanner({
+  tint,
   title,
-  summary,
+  sub,
+  brand,
+}: {
+  tint: 'sky' | 'mint'
+  title: string
+  sub: string
+  brand: string
+}) {
+  const bg = tint === 'sky' ? 'var(--pastel-sky)' : 'var(--pastel-mint)'
+  return (
+    <div className="overflow-hidden rounded-xl" style={{ background: bg }}>
+      <div className="px-4 py-3">
+        <div className="flex items-start gap-2.5">
+          <span
+            aria-hidden
+            className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-white/70 text-[12px] text-zinc-900"
+          >
+            ⚡
+          </span>
+          <div className="min-w-0">
+            <p className="text-[12.5px] font-semibold text-zinc-900">{title}</p>
+            <p className="mt-0.5 text-[11.5px] leading-snug text-zinc-700/85">{sub}</p>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-black/[0.06] bg-white/40 px-4 py-1.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-zinc-600">
+        {brand}
+      </div>
+    </div>
+  )
+}
+
+function QtyBtn({
+  onClick,
+  ariaLabel,
   children,
 }: {
-  step: number
-  title: string
-  summary?: string
+  onClick: () => void
+  ariaLabel: string
   children: React.ReactNode
 }) {
   return (
-    <section>
-      <header className="mb-3 flex items-baseline justify-between">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
-          Step {step}
-        </p>
-        {summary ? (
-          <p className="text-[12px] text-zinc-500">{summary}</p>
-        ) : null}
-      </header>
-      <h2 className="mb-4 text-[clamp(20px,1.6vw,24px)] font-semibold tracking-tight text-zinc-900">
-        {title}
-      </h2>
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className="grid h-11 w-11 place-items-center rounded-full text-[18px] text-zinc-700 transition-colors hover:bg-black/5"
+    >
       {children}
-    </section>
+    </button>
+  )
+}
+
+function ShareDot({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      className="grid h-6 w-6 place-items-center rounded-full border border-black/10 text-[10px] text-zinc-700 transition-colors hover:bg-black/5 hover:text-zinc-900"
+    >
+      {children}
+    </button>
+  )
+}
+
+/* ---------- icons ---------- */
+
+function DisplayIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <rect x="3" y="4" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M9 20h6M12 16v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+function TypeIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+function BarcodeIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M4 5v14M7 5v14M10 5v9M13 5v14M16 5v9M19 5v14"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+function TruckIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M3 7h11v9H3zM14 10h4l3 3v3h-7"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <circle cx="7.5" cy="17.5" r="1.6" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="17" cy="17.5" r="1.6" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
   )
 }

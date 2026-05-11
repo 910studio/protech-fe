@@ -15,12 +15,11 @@ import 'lenis/dist/lenis.css'
 export function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.0,
-      // Slightly tighter than the 0.1 default — softens the wheel without lag
-      lerp: 0.085,
+      duration: 0.12,
+      lerp: 0.95,
+      wheelMultiplier: 2.1,
       smoothWheel: true,
-      // syncTouch defaults to false — keep native touch behavior
-      easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
+      easing: (t) => 1 - Math.pow(1 - t, 3),
     })
 
     let rafId = 0
